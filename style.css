@@ -65,7 +65,7 @@ label{
 }
 .bookmark{
     background-color: rgb(148, 40, 40);
-    margin-right:40px;
+    margin-right:280px;
     width: 60px;
     height: 200px;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 76%, 0 100%);

@@ -1,12 +1,9 @@
 <?php
+include 'db_connection.php';
 
-// $loginDBConnect= mysqli_connect('localhost', 'root', '', 'library_db');
-
-// if(mysqli_connect_errno()){
-//     echo "Failed to connect to database";
-//     exit();
-// }
-//     $users=mysqli_query($loginDBConnect, "SELECT * from users");
-//     $usersArray=mysqli_fetch_assoc($users);
+session_start();
+$loggedUser= $_SESSION['user'];
+$userInfoQuery=mysqli_query($DBConnect, "SELECT * from users where username = '$loggedUser'");
+$userInfo=mysqli_fetch_assoc($userInfoQuery);
 
 ?>

@@ -5,8 +5,9 @@ margin: 0;
 .nav{
     background-color: rgb(146, 138, 121);
     height:80px;
-    width: auto;
     display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 .mt{
     margin-top: 5%;
@@ -20,6 +21,16 @@ margin: 0;
     height: 300px;
     background-color: rgb(214, 204, 186);
 }
+.flex-end{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+.log-out-button{
+    margin-right: 40px;
+    width: 70px;
+    height: 30px;
+}
 .flex{
     display: flex;
     flex-direction: column;
@@ -27,7 +38,27 @@ margin: 0;
     margin-left: 1%;
 }
 .table{
-    width:70%;
-    height:500px;
+    width:80%;
+    height:auto;
     background-color: rgb(214, 204, 186);
+}
+table{
+    font-size: 20px;
+    width: 100%;
+}
+td{
+    height: 40px;
+    word-wrap: break-word;
+    border: 1px solid rgba(139, 69, 19, 0.178);
+}
+.description-col{
+    max-width: 150px;
+}
+tr:not(.thead-row):hover{
+    background-color: rgb(163, 156, 141); 
+    transition: all 0.1s ease-in;
+}
+.sort-buttons{
+    height:50px;
+    margin-right: 20px;
 }
