@@ -1,0 +1,72 @@
+body{
+    background-color: rgb(81, 100, 100);
+}
+.flex-js-center{
+    display: flex;
+    justify-content: center;
+}
+.flex-row{
+    display: flex;
+    flex-direction: row;
+}
+.flex-col{
+    display: flex;
+    flex-direction: column;
+}
+.mt30{
+    margin-top: 30%;
+}
+.shadow{
+    box-shadow: 0px 15px 21px 5px rgba(64,72,77,1);
+}
+.rounded-borders{
+    border-radius: 20px;
+}
+.image{
+    width: 400px;
+    filter: brightness(50%);
+    border-radius: 20px 0px 0px 20px;
+}
+.form-container{
+    background-color: rgb(214, 204, 186);
+    flex-direction: column;
+    width:320px;
+    height: 500px;
+    padding:20px 40px;
+    box-shadow: inset 92px 0px 46px -89px rgba(74,70,58,1);
+}
+#username,#password{
+    width: 60%;
+    height: auto;
+    font-size: 18px;
+    margin-top:5px;
+    padding-left: 6px;
+    padding:5px
+}
+label{
+    font-size: 22px;
+    margin-top: 15px;
+}
+.flex-end{
+    display: flex;
+    justify-content: end;
+}
+.validation-message{
+    margin-top: 20px;
+    height: 20px;
+}
+.login-button{
+    margin-right: 10%;
+    margin-top: 10px;
+    width: 70px;
+    height: 25px;
+    font-size: 15px;
+    cursor: pointer;
+}
+.bookmark{
+    background-color: rgb(148, 40, 40);
+    margin-right:40px;
+    width: 60px;
+    height: 200px;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 76%, 0 100%);
+}

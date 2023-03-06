@@ -1,0 +1,33 @@
+body{
+background-color: rgb(81, 100, 100);
+margin: 0;
+}
+.nav{
+    background-color: rgb(146, 138, 121);
+    height:80px;
+    width: auto;
+    display: flex;
+}
+.mt{
+    margin-top: 5%;
+}
+.flex-js-center{
+    display: flex;
+    justify-content: center;
+}
+.search{
+    width:700px;
+    height: 300px;
+    background-color: rgb(214, 204, 186);
+}
+.flex{
+    display: flex;
+    flex-direction: column;
+    margin-top: 5%;
+    margin-left: 1%;
+}
+.table{
+    width:70%;
+    height:500px;
+    background-color: rgb(214, 204, 186);
+}
