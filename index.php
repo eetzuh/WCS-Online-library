@@ -4,7 +4,6 @@ session_start();
 if (isset($_SESSION['user'])) {
     header('Location: ./mainpage.php');
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

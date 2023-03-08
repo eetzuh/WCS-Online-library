@@ -1,5 +1,4 @@
 <?php
-include './login.php';
 include './db_connection.php';
 if(!$loggedUser){
     header('Location:./index.php');

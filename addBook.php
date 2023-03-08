@@ -1,6 +1,9 @@
 <?php
-
-include 'db_connection.php'
+session_start();
+include 'db_connection.php';
+if(!$loggedUser){
+    header('Location:./index.php');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
