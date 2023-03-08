@@ -1,7 +1,6 @@
 <?php
 include './login.php';
 include './db_connection.php';
-
 if(!$loggedUser){
     header('Location:./index.php');
 }
@@ -19,37 +18,36 @@ if(!$loggedUser){
 <body>
     <header>
         <div class='nav'>
-        <div><?php print_r($userInfo)?></div>
+            <div class='search-div'>
+            <form action="./mainpage.php" method='get'>
+                <div class='flex-js-center'>
+                    <input type="text" name="searchBook" id='search-field'>
+                    <button type='submit' class='search-button'><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+</svg></button>
+                </div>
+            </form>
+        </div>
         <div class='flex-end'>
             <form action="./logOut.php" method="post">
-            <button type='sumbit' class='log-out-button'>Log Out</button>
+            <button type='sumbit' class='log-out-button header-button'>Log Out</button>
         </form>
-        </div>
-        </div>
+            </div>
+    </div>
     </header>
-            <!-- <div class='flex-js-center mt'>
-                <div class='search'>
-                    <form action="./mainpage.php">
-                        <label for=""></label>
-                        <input type="text" name="" id="">
-                    </form>
-                </div>
-            </div> -->
-                <?php
-                if(isset($_SESSION['count'])){
-                    print_r($_GET);
-                    $_SESSION['count']+=1;
-                }else{
-                    $_SESSION['count']=1;
-                }
-                print($_SESSION['count']);
-                ?>
     <div class='flex-js-center'>
         <div class='table mt'>
             <div class='flex-end sort-buttons'>
-                <form action="./mainpage.php" method='GET'>
-                    <button class='sort-button' name='sortASC'>Sort by asc</button>
-                    <button class='sort-button' name='sortDESC'>Sort by desc</button>
+                <form action="./mainpage.php" method='post'>
+                    <select name="sort_table" id="sort-table">
+                        <option value="selectSort">Sort by</option>
+                        <option value="sortASC">ASC</option>
+                        <option value="sortDESC">DESC</option>
+                    </select>
+                    <button class='sort-button' name='submit'>Sort</button>
+                </form>
+                <form action="./addBook.php">
+                    <button class='sort-button'>Add book</button>
                 </form>
             </div>
             <table>
@@ -65,41 +63,86 @@ if(!$loggedUser){
             </thead>
             <tbody>
                 <?php
-                    $booksQuery="SELECT books.name as name, books.number_of_pages, books.publication_date, books.quantity, books.description,author from books, authors, book_author WHERE books.id=book_author.book_id AND authors.id = book_author.author_id";
-                    $booksDataQuery=mysqli_query($DBConnect, $booksQuery);
-                    $booksData= mysqli_fetch_all($booksDataQuery, MYSQLI_ASSOC);
-                    if(isset($_GET['sortASC'])){
-                        $sortQuery=$booksQuery." ORDER BY name ASC";
-                        $sortedBooksQuery=mysqli_query($DBConnect, $sortQuery);
-                        $sortedBooks=mysqli_fetch_all($sortedBooksQuery, MYSQLI_ASSOC);
-                        $booksData=$sortedBooks;
-                    }else if(isset($_GET['sortDESC'])){
-                        $sortQuery=$booksQuery." ORDER BY name DESC";
-                        $sortedBooksQuery=mysqli_query($DBConnect, $sortQuery);
-                        $sortedBooks=mysqli_fetch_all($sortedBooksQuery, MYSQLI_ASSOC);
-                        $booksData=$sortedBooks;
+
+                $sort = 'books.id';
+                if (isset($_POST['sort_table'])) {
+                    if ($_POST['sort_table'] == 'sortASC') {
+                        $sort = ' name ASC';
+                    } else if ($_POST['sort_table'] == 'sortDESC') {
+                        $sort = ' name DESC';
+                    } else {
+                        $sort = 'books.id';
                     }
-                    foreach($booksData as $book){
-                        $availability="Posuđeno";
-                        if($book['quantity']>0){
-                            $availability="Dostupno";
+                }
+                
+                $booksQuery = "SELECT books.id, books.name as name, books.number_of_pages, books.publication_date, books.quantity, books.description,author from books, authors, book_author WHERE books.id=book_author.book_id AND authors.id = book_author.author_id ORDER BY $sort";
+                $booksDataQuery = mysqli_query($DBConnect, $booksQuery);
+                $booksData = mysqli_fetch_all($booksDataQuery, MYSQLI_ASSOC);
+
+                //
+                    $newOrder='name';
+                    $newQuery="SELECT books.id, books.name as name, books.number_of_pages, category.name as category_name, books.publication_date, books.quantity, books.description,author FROM books, authors, category, book_author, book_category WHERE books.id=book_author.book_id AND authors.id = book_author.author_id AND category.id= book_category.category_id AND books.id = book_category.book_id ORDER BY $newOrder";
+                    $newDataQuery=mysqli_query($DBConnect, $newQuery);
+                    $newData=mysqli_fetch_all($newDataQuery, MYSQLI_ASSOC);
+                    for($i=0;$i<count($newData)-1;$i++){
+                        if($i<count($newData)){
+                            if($newData[$i+1]['name']==$newData[$i]['name']){
+                                $newData[$i]['category_name'].=", ".$newData[$i+1]['category_name'];
+                                unset($newData[$i+1]);
+                                $newData=array_values($newData);
+                            }
                         }
-                        if(strlen($book['description'])>60){
-                            $shortenedDescription=substr($book['description'],0,61);
+                    }
+                    
+
+                //
+
+                if (isset($_GET['searchBook'])) {
+                    $searchTerm = $_GET['searchBook'];
+                    if ($searchTerm != "") {
+                        $booksQuery = "SELECT books.name as name, books.number_of_pages, books.publication_date, books.quantity, books.description,author from books, authors, book_author WHERE (books.id=book_author.book_id AND authors.id = book_author.author_id)  AND (name LIKE '%$searchTerm%' OR author like '%$searchTerm%') ORDER BY $sort";
+                        $booksDataQuery = mysqli_query($DBConnect, $booksQuery);
+                        $searchedBooks = mysqli_fetch_all($booksDataQuery, MYSQLI_ASSOC);
+                        $booksData = $searchedBooks;
+                    }
+                }
+                        if(count($booksData)>0){
+                            $id=1;
+                        foreach($booksData as $book){
+                            $availability="Posuđeno";
+                            if($book['quantity']!=="0"){
+                                $availability="Dostupno";
+                            }else{
+                                $availability="Posuđeno";
+                            }
+                            if(strlen($book['description'])>90){
+                                $shortenedDescription=substr($book['description'],0,90)."...";
+                            }
+                            echo "
+                            <tr style='display:none'><td>".$book['id']."</td>.
+                            <tr><td>".$book['name']."</td>".
+                            "<td>".$book['author']."</td>".
+                            "<td>".$book['number_of_pages']."</td>".
+                            "<td>".$book['publication_date']."</td>".
+                            "<td id='availability-$id'>".$availability."</td>".
+                            '<td class="description-col">'.$shortenedDescription."</td>".
+                            "</tr>"
+                            ;
+                            $id++;
                         }
-                        echo "<tr><td>".$book['name']."</td>".
-                        "<td>".$book['author']."</td>".
-                        "<td>".$book['number_of_pages']."</td>".
-                        "<td>".$book['publication_date']."</td>".
-                        "<td>".$availability."</td>".
-                        "<td class='description-col'>".$shortenedDescription."</td>".
-                        "</tr>"
-                        ;
+
+                    }else{
+                        echo '<tr class="search-message"><td class="search-message">No matches found.</tr></td>';
                     }
                     ?>
                 </tbody>
             </table>
         </div>
     </div>
+    <?php
+ 
+    
+    ?>
+    <script src='./mainpage.js'></script>
 </body>
 </html>
