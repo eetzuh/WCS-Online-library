@@ -1,4 +1,5 @@
-let toggleAuthorInput='not selected'
+let toggleAuthorInput='not selected';
+let addAuthorDiv=document.getElementById('add-new-authors');
 function addAuthor(){
     let selectedOption=document.querySelector('#select-author')
     let addAuthorButton=document.querySelector('#author-input-button')

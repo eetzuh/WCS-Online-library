@@ -47,7 +47,7 @@ if(!$loggedUser){
                     <button class='sort-button' name='submit'>Sort</button>
                 </form>
                 <form action="./addBook.php">
-                    <button class='sort-button'>Add book</button>
+                    <button class='sort-button'>Dodaj knjigu</button>
                 </form>
             </div>
             <table>
@@ -56,6 +56,7 @@ if(!$loggedUser){
                         <th>Naziv knjige</th>
                         <th>Autor</th>
                         <th>Broj strana</th>
+                        <th>Žanr</th>
                         <th>Datum izdanja</th>
                         <th>Dostupnost</th>
                         <th>Opis</th>
@@ -64,46 +65,47 @@ if(!$loggedUser){
             <tbody>
                 <?php
 
-                $sort = 'books.id';
+                $sort = 'id';
                 if (isset($_POST['sort_table'])) {
                     if ($_POST['sort_table'] == 'sortASC') {
                         $sort = ' name ASC';
                     } else if ($_POST['sort_table'] == 'sortDESC') {
                         $sort = ' name DESC';
                     } else {
-                        $sort = 'books.id';
+                        $sort = 'id';
                     }
                 }
                 
-                $booksQuery = "SELECT books.id, books.name as name, books.number_of_pages, books.publication_date, books.quantity, books.description,author from books, authors, book_author WHERE books.id=book_author.book_id AND authors.id = book_author.author_id ORDER BY $sort";
-                $booksDataQuery = mysqli_query($DBConnect, $booksQuery);
-                $booksData = mysqli_fetch_all($booksDataQuery, MYSQLI_ASSOC);
-
-                //
-                    $newOrder='name';
-                    $newQuery="SELECT books.id, books.name as name, books.number_of_pages, category.name as category_name, books.publication_date, books.quantity, books.description,author FROM books, authors, category, book_author, book_category WHERE books.id=book_author.book_id AND authors.id = book_author.author_id AND category.id= book_category.category_id AND books.id = book_category.book_id ORDER BY $newOrder";
-                    $newDataQuery=mysqli_query($DBConnect, $newQuery);
-                    $newData=mysqli_fetch_all($newDataQuery, MYSQLI_ASSOC);
-                    for($i=0;$i<count($newData)-1;$i++){
-                        if($i<count($newData)){
-                            if($newData[$i+1]['name']==$newData[$i]['name']){
-                                $newData[$i]['category_name'].=", ".$newData[$i+1]['category_name'];
-                                unset($newData[$i+1]);
-                                $newData=array_values($newData);
+                    $booksQuery="SELECT books.id, books.name as name, books.number_of_pages, category.name as category_name, books.publication_date, books.quantity, books.description,author FROM books, authors, category, book_author, book_category WHERE books.id=book_author.book_id AND authors.id = book_author.author_id AND category.id= book_category.category_id AND books.id = book_category.book_id ORDER BY $sort";
+                    $booksDataQuery=mysqli_query($DBConnect, $booksQuery);
+                    $booksData=mysqli_fetch_all($booksDataQuery, MYSQLI_ASSOC);
+                    function removeDuplicates(){
+                        global $booksData;
+                        for($i=0;$i<count($booksData)-1;$i++){
+                            if($i<count($booksData)){
+                                if($booksData[$i+1]['name']==$booksData[$i]['name']){
+                                    if($booksData[$i]['category_name']!=$booksData[$i+1]['category_name']){
+                                        $booksData[$i]['category_name'].=", ".$booksData[$i+1]['category_name'];
+                                    }
+                                    if($booksData[$i]['author']!=$booksData[$i+1]['author']){
+                                        $booksData[$i]['author'].=", ".$booksData[$i+1]['author'];
+                                    }
+                                    unset($booksData[$i+1]);
+                                    $booksData=array_values($booksData);
+                                }
                             }
                         }
+                        return $booksData;
                     }
-                    
-
-                //
-
+                    removeDuplicates();
                 if (isset($_GET['searchBook'])) {
                     $searchTerm = $_GET['searchBook'];
                     if ($searchTerm != "") {
-                        $booksQuery = "SELECT books.name as name, books.number_of_pages, books.publication_date, books.quantity, books.description,author from books, authors, book_author WHERE (books.id=book_author.book_id AND authors.id = book_author.author_id)  AND (name LIKE '%$searchTerm%' OR author like '%$searchTerm%') ORDER BY $sort";
+                        $booksQuery = "SELECT books.id, books.name as name, books.number_of_pages, category.name as category_name, books.publication_date, books.quantity, books.description,author FROM books, authors, category, book_author, book_category WHERE (books.id=book_author.book_id AND authors.id = book_author.author_id AND category.id= book_category.category_id AND books.id = book_category.book_id)  AND (books.name LIKE '%$searchTerm%' OR author like '%$searchTerm%') ORDER BY $sort";
                         $booksDataQuery = mysqli_query($DBConnect, $booksQuery);
                         $searchedBooks = mysqli_fetch_all($booksDataQuery, MYSQLI_ASSOC);
                         $booksData = $searchedBooks;
+                        removeDuplicates();
                     }
                 }
                         if(count($booksData)>0){
@@ -123,6 +125,7 @@ if(!$loggedUser){
                             <tr><td>".$book['name']."</td>".
                             "<td>".$book['author']."</td>".
                             "<td>".$book['number_of_pages']."</td>".
+                            "<td>".$book['category_name']."</td>".
                             "<td>".$book['publication_date']."</td>".
                             "<td id='availability-$id'>".$availability."</td>".
                             '<td class="description-col">'.$shortenedDescription."</td>".
@@ -139,10 +142,6 @@ if(!$loggedUser){
             </table>
         </div>
     </div>
-    <?php
- 
-    
-    ?>
     <script src='./mainpage.js'></script>
 </body>
 </html>
