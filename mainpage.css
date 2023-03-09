@@ -4,6 +4,7 @@ margin: 0;
 }
 button{
     cursor: pointer;
+    text-align: center;
 }
 .nav{
     background-color: rgb(146, 138, 121);
@@ -71,9 +72,9 @@ tr:not(.thead-row):not(.search-message):hover{
     margin-left: 6%;
     border: none;
 }
-form{
+/* form{
     margin: 0;
-}
+} */
 #search-field{
     width:400px;
     height:35px;
@@ -117,12 +118,41 @@ form{
     width:90%
 }
 #text-input{
-    width:300px
+    width:200px
 }
-#select-existing{
-    width: 300px;
+#selectAuthor, #selectCategory{
+    width: 200px;
 }
-#add-author{
+.toggle{
+    width:20px;
     cursor:pointer;
     margin-top: 5px;
 }
+.selectedItems{
+    display: flex;
+}
+#selected-author, #selected-category{
+    margin-left: 10px;
+}
+#select-author, #select-category{
+    height: 25px;
+}
+.added{
+    border:1px solid brown;
+    cursor: pointer;
+    margin-right: 3px;
+    background-color: white;
+    padding: 5px;
+    padding-bottom: 2px;
+    text-align: center;
+}
+.mt-5{
+    margin-top: 5px;
+}
+.wrap{
+    flex-wrap: wrap;
+}
+input{
+    height:25px
+}
+

@@ -10,6 +10,7 @@ if (isset($_SESSION['user'])) {
 
 <head>
     <meta charset="UTF-8">
+    
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="./style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,11 +38,11 @@ if (isset($_SESSION['user'])) {
 
                                 <?php
                                 include 'db_connection.php';
-                    
+
                                 if (isset($_POST['username'])) {
                                     $username = $_POST['username'];
                                     $password = $_POST['password'];
-
+                                    
                                     $loginValidation = mysqli_query($DBConnect, "SELECT * from users where username = '$username' and password = '$password'");
                                     $result = mysqli_fetch_assoc($loginValidation);
                                     if ($result) {

@@ -1,5 +1,6 @@
 <?php
 include './db_connection.php';
+include('./login.php');
 if(!$loggedUser){
     header('Location:./index.php');
 }
@@ -75,7 +76,7 @@ if(!$loggedUser){
                     }
                 }
                 
-                    $booksQuery="SELECT books.id, books.name as name, books.number_of_pages, category.name as category_name, books.publication_date, books.quantity, books.description,author FROM books, authors, category, book_author, book_category WHERE books.id=book_author.book_id AND authors.id = book_author.author_id AND category.id= book_category.category_id AND books.id = book_category.book_id ORDER BY $sort";
+                    $booksQuery="SELECT books.id, books.name as name, books.number_of_pages, categories.name as category_name, books.publication_date, books.quantity, books.description,author FROM books, authors, categories, book_author, book_category WHERE books.id=book_author.book_id AND authors.id = book_author.author_id AND categories.id= book_category.category_id AND books.id = book_category.book_id ORDER BY $sort";
                     $booksDataQuery=mysqli_query($DBConnect, $booksQuery);
                     $booksData=mysqli_fetch_all($booksDataQuery, MYSQLI_ASSOC);
                     function removeDuplicates(){
@@ -100,7 +101,7 @@ if(!$loggedUser){
                 if (isset($_GET['searchBook'])) {
                     $searchTerm = $_GET['searchBook'];
                     if ($searchTerm != "") {
-                        $booksQuery = "SELECT books.id, books.name as name, books.number_of_pages, category.name as category_name, books.publication_date, books.quantity, books.description,author FROM books, authors, category, book_author, book_category WHERE (books.id=book_author.book_id AND authors.id = book_author.author_id AND category.id= book_category.category_id AND books.id = book_category.book_id)  AND (books.name LIKE '%$searchTerm%' OR author like '%$searchTerm%') ORDER BY $sort";
+                        $booksQuery = "SELECT books.id, books.name as name, books.number_of_pages, categories.name as category_name, books.publication_date, books.quantity, books.description,author FROM books, authors, categories, book_author, book_category WHERE (books.id=book_author.book_id AND authors.id = book_author.author_id AND categories.id= book_category.category_id AND books.id = book_category.book_id)  AND (books.name LIKE '%$searchTerm%' OR author like '%$searchTerm%') ORDER BY $sort";
                         $booksDataQuery = mysqli_query($DBConnect, $booksQuery);
                         $searchedBooks = mysqli_fetch_all($booksDataQuery, MYSQLI_ASSOC);
                         $booksData = $searchedBooks;
@@ -120,7 +121,7 @@ if(!$loggedUser){
                                 $shortenedDescription=substr($book['description'],0,90)."...";
                             }
                             echo "
-                            <tr style='display:none'><td>".$book['id']."</td>.
+                            <tr style='display:none'><td>".$book['id']."</td>
                             <tr><td>".$book['name']."</td>".
                             "<td>".$book['author']."</td>".
                             "<td>".$book['number_of_pages']."</td>".
