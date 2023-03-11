@@ -31,18 +31,23 @@ function toggleAddItem(item){
 }
 
 function appendInput(text, div, item, type ){
+    let container= document.createElement('div');
+    let addInput=document.createElement('input')
+    addInput.setAttribute('name', type+'_'+item+'[]')
+    addInput.setAttribute('type', 'text')
+    addInput.setAttribute('readonly','')
+    addInput.setAttribute('onclick', '')
+    // addInput.setAttribute('style', 'display:none')
+    addInput.setAttribute('value', text.value)
+    container.appendChild(addInput);
     let addlabel=document.createElement('label')
         addlabel.innerText=text.value
         addlabel.setAttribute('for', type+'_'+item)
         addlabel.setAttribute('class','added')
-        addlabel.setAttribute('onclick', 'this.remove()')
-        div.appendChild(addlabel);
-    let addInput=document.createElement('input')
-        addInput.setAttribute('name', type+'_'+item+'[]')
-        addInput.setAttribute('type', 'text')
-        addInput.setAttribute('style', 'display:none')
-        addInput.setAttribute('value', text.value)
-        div.appendChild(addInput);
+        // addlabel.setAttribute('onclick', 'this.innerHTML=null;console.log(document); this.remove()');
+    container.appendChild(addlabel)
+    container.setAttribute('onclick', 'this.remove()')
+    div.appendChild(container)
 }
 
 function addItem(newElem){

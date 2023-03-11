@@ -156,3 +156,6 @@ input{
     height:25px
 }
 
+input{
+    border: 1px transparent
+}
