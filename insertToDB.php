@@ -1,6 +1,6 @@
 <?php
-include './addBook.php';
-include 'db_connection.php';
+include './db_connection.php';
+session_start();
 
 $name=$_POST['bookName'];
 $numberOfPages=$_POST['number_of_pages'];
@@ -56,5 +56,5 @@ if(isset($_POST['selected_category'])){
 }
 
 
-header('location:./addBook.php');
+header('location:./mainpage.php');
 ?>

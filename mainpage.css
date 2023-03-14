@@ -6,6 +6,9 @@ button{
     cursor: pointer;
     text-align: center;
 }
+button:disabled{
+    cursor:default;
+}
 .nav{
     background-color: rgb(146, 138, 121);
     height:80px;
@@ -158,4 +161,8 @@ input{
 
 input{
     border: 1px transparent
+}
+#delete-book{
+    color: red;
+    border: red 1px solid;
 }

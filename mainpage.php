@@ -46,7 +46,7 @@ if (!$loggedUser) {
                         <option value="sortASC">ASC</option>
                         <option value="sortDESC">DESC</option>
                     </select>
-                    <button class='sort-button' name='submit'>Sort</button>
+                    <button class='sort-button' name='submit'>Sortiraj</button>
                 </form>
                 <form action="./addBook.php">
                     <button class='sort-button'>Dodaj knjigu</button>
@@ -119,14 +119,14 @@ if (!$loggedUser) {
                             echo "
                             <tr style='display:none'><td>" . $book['id'] . "</td>
                             <tr><td>" . $book['name'] . "</td>" .
-                                "<td>".$authors[0]['author']."</td>" .
-                                "<td>" . $book['number_of_pages'] . "</td>" .
-                                "<td>".$categories[0]['category_name']."</td>" .
-                                "<td>" . $book['publication_date'] . "</td>" .
-                                "<td id='availability-$id'>" . $availability . "</td>" .
-                                '<td class="description-col">' . $description . "</td>" .
-                                '<td><form action="./editBook.php" method="get"><input type="text" name="edit_book" style="display:none" value="'.$book['id'].'"/><button>Edit</button></form></td>' .
-                                "</tr>";
+                            "<td>".$authors[0]['author']."</td>" .
+                            "<td>" . $book['number_of_pages'] . "</td>" .
+                            "<td>".$categories[0]['category_name']."</td>" .
+                            "<td>" . $book['publication_date'] . "</td>" .
+                            "<td id='availability-$id'>" . $availability . "</td>" .
+                            '<td class="description-col">' . $description . "</td>" .
+                            '<td><form action="./editBook.php" method="get"><input type="text" name="edit_book" style="display:none" value="'.$book['id'].'"/><button>Uredi</button></form></td>' .
+                            "</tr>";
                             $id++;
                         }
                     } else {
@@ -137,6 +137,7 @@ if (!$loggedUser) {
             </table>
         </div>
     </div>
+
     <script src='./mainpage.js'></script>
 </body>
 
