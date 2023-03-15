@@ -27,7 +27,7 @@ $_SESSION['page']="addBook";
     </header>
     <div class='mt flex-js-center'>
         <div class='add-book-div flex-js-center'>
-            <form action="./insertToDB.php" class='add-book-form' method="post">
+            <form action="./insertToDB.php" class='add-book-form' id='addBook' method="post">
                 <div class='flex-col'>
                     <label for="bookName">Naziv knjige</label>
                     <input type="text" name="bookName" id="text-input" class='mt-5' required>

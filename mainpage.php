@@ -107,7 +107,7 @@ if (!$loggedUser) {
                             $availability = "Posuđeno";
                             //čitajući kolonu quantity iz tabele books, u kolonu dostupnost dodajem odgovarajuću
                             if ($book['quantity'] !== "0") {
-                                $availability = "Dostupno";
+                                $availability = "Dostupno<br>Ukupno:".$book['quantity'];
                             } else {
                                 $availability = "Posuđeno";
                             }

@@ -1,6 +1,8 @@
 let toggleAuthorInput='not selected';
 let toggleCategoryInput='not selected';
 
+
+
 function toggleAddItem(item){
     if(item=='author'){
         selected=toggleAuthorInput;
@@ -30,27 +32,34 @@ function toggleAddItem(item){
     }
 }
 
+// function checkFields(){
+//     let authorsInput=document.getElementById('checkAuthorInput')
+//     let categoriesInput=document.getElementById('checkCategoryInput')
+//     if(authorsInput.value=="" || categoriesInput.value==""){
+      
+//     }
+// }
+
 function appendInput(text, div, item, type ){
     let container= document.createElement('div');
     let addInput=document.createElement('input')
     addInput.setAttribute('name', type+'_'+item+'[]')
     addInput.setAttribute('type', 'text')
-    addInput.setAttribute('readonly','')
     addInput.setAttribute('onclick', '')
-    // addInput.setAttribute('style', 'display:none')
+    addInput.setAttribute('style', 'display:none')
     addInput.setAttribute('value', text.value)
+    // addInput.setAttribute('form','addForm')
     container.appendChild(addInput);
     let addlabel=document.createElement('label')
         addlabel.innerText=text.value
         addlabel.setAttribute('for', type+'_'+item)
         addlabel.setAttribute('class','added')
-        // addlabel.setAttribute('onclick', 'this.innerHTML=null;console.log(document); this.remove()');
     container.appendChild(addlabel)
     container.setAttribute('onclick', 'this.remove()')
     div.appendChild(container)
 }
 
-function addItem(newElem){
+function addItem(newElem, form){
     
     let selectedDiv=document.querySelector('#selected-'+newElem)
     let inputValue=document.querySelector('.new-'+newElem)
@@ -60,7 +69,7 @@ function addItem(newElem){
     inputValue.value=""
 }
 
-function chosenItem(selectedElem){
+function chosenItem(selectedElem, form){
     item=''
     if(selectedElem.id=="selectCategory"){
         item='category'
@@ -75,3 +84,4 @@ function chosenItem(selectedElem){
         appendInput(selectedElem,selectedDiv, item, 'selected');
     }
 }
+

@@ -56,4 +56,6 @@ if($_POST['previous_category']!=$_POST['compare_previous_category']){
 $editBookQuery="UPDATE books SET books.name ='$name' , number_of_pages='$numberOfPages' , publication_date= '$publicationDate' ,  quantity= '$quantity' , description= '$description' WHERE books.id=$bookId";
 mysqli_query($DBConnect, $editBookQuery);
 print($editBookQuery);
+
+
 ?>
