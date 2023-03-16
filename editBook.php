@@ -9,9 +9,6 @@ $bookId = $_GET['edit_book'];
 $selectedBookQuery = "SELECT books.id, books.name as name, books.number_of_pages, categories.name as category_name, books.publication_date, books.quantity, books.description,author FROM books, authors, categories, book_author, book_category WHERE books.id=book_author.book_id AND authors.id = book_author.author_id AND categories.id= book_category.category_id AND books.id = book_category.book_id AND books.id= $bookId";
 $selectedBookData = mysqli_query($DBConnect, $selectedBookQuery);
 $selectedBook = mysqli_fetch_all($selectedBookData, MYSQLI_ASSOC);
-print_r($bookId);
-print_r($selectedBookQuery);
-print_r($selectedBook);
 
 $authors = [];
 $categories = [];
@@ -28,6 +25,8 @@ $quantity = $selectedBook[0]['quantity'];
 $description = $selectedBook[0]['description'];
 $_SESSION['bookID'] = $selectedBook[0]['id'];
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -58,8 +57,8 @@ $_SESSION['bookID'] = $selectedBook[0]['id'];
                 </div>
                 <div class='flex-col inputs-div'>
                     <label for="selectAuthor">Autor</label>
-                    <div class='selectedItems mt-5'>
-                        <input list='select-author' form='none' onchange="chosenItem(this)" id="selectAuthor" placeholder='Izaberi autora' form=''>
+                    <div class='selectedItems mt-5' onclick='checkFields()'>
+                        <input list='select-author' form='none' onchange="chosenItem(this, 'edit')" id="selectAuthor" placeholder='Izaberi autora' form=''>
                         <datalist id="select-author">
                             <?php
                             $authorNameQuery = "SELECT author FROM authors";
@@ -75,7 +74,7 @@ $_SESSION['bookID'] = $selectedBook[0]['id'];
                             <?php
                             foreach ($authors as $author) {
                                 echo '<div onclick="this.remove()"><label for="previous_author" class="added" onclick="this.remove()">' . $author . '</label>
-                                        <input name="previous_author[]" type="text" style="display:none" value="' . $author . '"></div>
+                                        <input form="editForm" name="previous_author[]" type="text" style="display:none" value="' . $author . '"></div>
                                         <input form="editForm" name="compare_previous_author[]" type="text" style="display:none" value="' . $author . '">';
                             }
                             ?>
@@ -86,14 +85,13 @@ $_SESSION['bookID'] = $selectedBook[0]['id'];
                         </svg></label>
                     <div id='add-new-author' class='selectedItems'>
                         <input form='editForm' type="text" form='none' id="text-input" class='new-author' style='display:none'>
-                        <button onclick="addItem('author')" type="button" id='author-btn' style='display:none'>Dodaj</button>
+                        <button onclick="addItem('author', 'edit')" type="button" id='author-btn' style='display:none'>Dodaj</button>
                     </div>
                 </div>
                 <div class='flex-col inputs-div'>
-                    <label for="selectCategory" multiple>Žanr</label>
-                    <div>
-                        <div class='selectedItems mt-5'>
-                            <input list='select-category' form='none' onchange="chosenItem(this)" id="selectCategory" placeholder='Izaberi žanr'>
+                    <label for="selectCategory">Žanr</label>
+                        <div class='selectedItems mt-5' onclick='checkFields()'>
+                            <input list='select-category' form='none' onchange="chosenItem(this, 'edit')" id="selectCategory" placeholder='Izaberi žanr'>
                             <datalist id="select-category">
                                 <?php
                                 $categoryNameQuery = "SELECT name FROM categories";
@@ -110,7 +108,7 @@ $_SESSION['bookID'] = $selectedBook[0]['id'];
                             <?php
                             foreach ($categories as $category) {
                                 echo '<div onclick="this.remove()"><label for="previous_category" class="added">' . $category . '</label>
-                                        <input name="previous_category[]" type="text" style="display:none" value="' . $category . '"></div>
+                                        <input form="editForm" name="previous_category[]" type="text" style="display:none" value="' . $category . '"></div>
                                         <input form="editForm" name="compare_previous_category[]" type="text" style="display:none" value="' . $category . '">';
                             }
                             ?>
@@ -121,7 +119,7 @@ $_SESSION['bookID'] = $selectedBook[0]['id'];
                         </svg></label>
                     <div id='add-new-category' class='selectedItems mt-5'>
                         <input  form='editForm' type="text" form='none' id="text-input" class='new-category' style='display:none'>
-                        <button onclick="addItem('category')" type="button" id='category-btn' style='display:none'>Dodaj</button>
+                        <button onclick="addItem('category', 'edit')" type="button" id='category-btn' style='display:none'>Dodaj</button>
                     </div>
                     <div class='flex-js-center inputs-div mt-5'>
                         <label for="number_of_pages">Broj strana</label>
@@ -143,7 +141,7 @@ $_SESSION['bookID'] = $selectedBook[0]['id'];
 
                     ?>
                     <div class='inputs-div flex-end'>
-                        <button type='submit' form='editForm'>Uredi knjigu</button>
+                        <button type='button' id='add-book-button' form='editForm'>Uredi knjigu</button>
                     </div>
                     <div class='flex-end mt-5'>
                         <button id='delete-book' type='submit' form='deleteForm'>Obriši knjigu</button>

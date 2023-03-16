@@ -34,8 +34,8 @@ $_SESSION['page']="addBook";
                 </div>
                 <div class='flex-col inputs-div'>
                     <label for="selectAuthor">Autor</label>
-                    <div class='selectedItems mt-5'>
-                        <input list='select-author' form='none' onchange="chosenItem(this)" id="selectAuthor" placeholder='Izaberi autora'>
+                    <div class='selectedItems mt-5' onchange='checkFields()'>
+                        <input list='select-author' form='none' onchange="chosenItem(this, 'add')" id="selectAuthor" placeholder='Izaberi autora'>
                         <datalist id="select-author">
                             <?php
                             $authorNameQuery = "SELECT author FROM authors";
@@ -56,14 +56,14 @@ $_SESSION['page']="addBook";
                         </svg></label>
                     <div id='add-new-author' class='selectedItems'>
                         <input type="text" form='none' id="text-input" class='new-author' style='display:none'>
-                        <button onclick="addItem('author')" type="button" id='author-btn' style='display:none'>Dodaj</button>
+                        <button onclick="addItem('author', 'add')" type="button" id='author-btn' style='display:none'>Dodaj</button>
                     </div>
                 </div>
                 <div class='flex-col inputs-div'>
                     <label for="selectCategory" multiple>Žanr</label>
                     <div>
-                        <div class='selectedItems mt-5'>
-                            <input list='select-category' form='none' onchange="chosenItem(this)" id="selectCategory" placeholder='Izaberi žanr'>
+                        <div class='selectedItems mt-5' onchange='checkFields()'>
+                            <input list='select-category' form='none' onchange="chosenItem(this, 'add')" id="selectCategory" placeholder='Izaberi žanr'>
                             <datalist id="select-category">
                                 <?php
                                 $categoryNameQuery = "SELECT name FROM categories";
@@ -85,7 +85,7 @@ $_SESSION['page']="addBook";
                         </svg></label>
                     <div id='add-new-category' class='selectedItems mt-5'>
                         <input type="text" form='none' id="text-input" class='new-category' style='display:none'>
-                        <button onclick="addItem('category')" type="button" id='category-btn' style='display:none'>Dodaj</button>
+                        <button onclick="addItem('category', 'add')" type="button" id='category-btn' style='display:none'>Dodaj</button>
                     </div>
                     <div class='flex-js-center inputs-div mt-5'>
                         <label for="number_of_pages">Broj strana</label>
@@ -106,7 +106,7 @@ $_SESSION['page']="addBook";
 
                     ?>
                     <div class='inputs-div flex-end'>
-                        <button type='submit' id='add-book-button'>Dodaj knjigu</button>
+                        <button type='button' id='add-book-button'>Dodaj knjigu</button>
                     </div>
             </form>
         </div>

@@ -32,28 +32,36 @@ function toggleAddItem(item){
     }
 }
 
-// function checkFields(){
-//     let authorsInput=document.getElementById('checkAuthorInput')
-//     let categoriesInput=document.getElementById('checkCategoryInput')
-//     if(authorsInput.value=="" || categoriesInput.value==""){
-      
-//     }
-// }
+function checkFields(){
+    let submitButton=document.getElementById('add-book-button')
+    let authorsInput=document.getElementById('selected-author')
+    let categoriesInput=document.getElementById('selected-category')
+    if(authorsInput.children.length!=0 && categoriesInput.children.length!=0){
+      submitButton.type='submit'
+    }else{
+        submitButton.type='button'
+        console.log(categoriesInput.children)
+    }
+    console.log(authorsInput.children)
+}
 
-function appendInput(text, div, item, type ){
+function appendInput(text, div, item, type, form ){
     let container= document.createElement('div');
     let addInput=document.createElement('input')
+    if(form=="edit"){
+        addInput.setAttribute('form', 'editForm')
+    }
     addInput.setAttribute('name', type+'_'+item+'[]')
     addInput.setAttribute('type', 'text')
     addInput.setAttribute('onclick', '')
     addInput.setAttribute('style', 'display:none')
     addInput.setAttribute('value', text.value)
-    // addInput.setAttribute('form','addForm')
     container.appendChild(addInput);
     let addlabel=document.createElement('label')
         addlabel.innerText=text.value
         addlabel.setAttribute('for', type+'_'+item)
         addlabel.setAttribute('class','added')
+    
     container.appendChild(addlabel)
     container.setAttribute('onclick', 'this.remove()')
     div.appendChild(container)
@@ -64,7 +72,7 @@ function addItem(newElem, form){
     let selectedDiv=document.querySelector('#selected-'+newElem)
     let inputValue=document.querySelector('.new-'+newElem)
     if(inputValue.value!==""){
-        appendInput(inputValue, selectedDiv, newElem, 'new')
+        appendInput(inputValue, selectedDiv, newElem, 'new', form)
     }
     inputValue.value=""
 }
@@ -81,7 +89,7 @@ function chosenItem(selectedElem, form){
     Array.from(optionsList).forEach(element=> optionsListArray.push(element.value))
     let selectedDiv=document.getElementById('selected-'+item)
     if(optionsListArray.includes(selectedElem.value)){
-        appendInput(selectedElem,selectedDiv, item, 'selected');
+        appendInput(selectedElem,selectedDiv, item, 'selected', form);
     }
 }
 
