@@ -32,17 +32,19 @@ function toggleAddItem(item){
     }
 }
 
-function checkFields(){
-    let submitButton=document.getElementById('add-book-button')
-    let authorsInput=document.getElementById('selected-author')
-    let categoriesInput=document.getElementById('selected-category')
-    if(authorsInput.children.length!=0 && categoriesInput.children.length!=0){
-      submitButton.type='submit'
-    }else{
-        submitButton.type='button'
-        console.log(categoriesInput.children)
+function checkFields(form){
+    let authorsInput=document.getElementsByClassName('added_author')
+    let categoriesInput=document.getElementsByClassName('added_category')
+    function stopSubmit(e){
+        e.preventDefault()
     }
-    console.log(authorsInput.children)
+    if(!(authorsInput.length!=0 && categoriesInput.length!=0)){
+        document.getElementById(form).addEventListener('submit', stopSubmit)
+        document.getElementById('inputWarning').innerHTML='Sva polja moraju biti popunjena'
+        setTimeout(function(){
+            document.getElementById(form).removeEventListener('submit', stopSubmit)
+        }, 2000)
+ }
 }
 
 function appendInput(text, div, item, type, form ){
@@ -53,16 +55,14 @@ function appendInput(text, div, item, type, form ){
     }
     addInput.setAttribute('name', type+'_'+item+'[]')
     addInput.setAttribute('type', 'text')
-    addInput.setAttribute('onclick', '')
     addInput.setAttribute('style', 'display:none')
     addInput.setAttribute('value', text.value)
     container.appendChild(addInput);
-    let addlabel=document.createElement('label')
-        addlabel.innerText=text.value
-        addlabel.setAttribute('for', type+'_'+item)
-        addlabel.setAttribute('class','added')
-    
-    container.appendChild(addlabel)
+    let addLabel=document.createElement('label')
+    addLabel.innerText=text.value
+    addLabel.setAttribute('for', type+'_'+item)
+    addLabel.setAttribute('class','added_'+item)
+    container.appendChild(addLabel)
     container.setAttribute('onclick', 'this.remove()')
     div.appendChild(container)
 }

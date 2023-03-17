@@ -110,26 +110,43 @@ if (!$loggedUser) {
                             $categories = mysqli_fetch_all($categoryDataQuery, MYSQLI_ASSOC);
                             $availability = "Posuđeno";
                             //čitajući kolonu quantity iz tabele books, u kolonu dostupnost dodajem odgovarajuću
-                            if ($book['quantity'] !== "0") {
+                            if ($book['quantity'] > 0) {
                                 $availability = "Dostupno<br>Ukupno:" . $book['quantity'];
+                                $available='available';
                             } else {
                                 $availability = "Posuđeno";
+                                $available='not-available';
+                            }
+                            $borrowed='not-borrowed';
+                            $borrowedBookQuery="SELECT * FROM book_user WHERE book_id=".$book['id'];
+                            $borrowedBooks=mysqli_query($DBConnect, $borrowedBookQuery);
+                            $borroewdBooksArray=mysqli_fetch_all($borrowedBooks, MYSQLI_ASSOC);
+                            if(count($borroewdBooksArray)>0){
+                                $borrowed='is-borrowed';
                             }
                             if (strlen($book['description']) > 90) {
                                 $description = substr($book['description'], 0, 90) . "...";
                             } else {
                                 $description = $book['description'];
                             }
-                            echo "
-                            <tr style='display:none'><td>" . $book['id'] . "</td>
-                            <tr><td>" . $book['name'] . "</td>" .
-                                "<td>" . $authors[0]['author'] . "</td>" .
-                                "<td>" . $book['number_of_pages'] . "</td>" .
-                                "<td>" . $categories[0]['category_name'] . "</td>" .
-                                "<td>" . $book['publication_date'] . "</td>" .
-                                "<td id='availability-$id'>" . $availability . "</td>" .
-                                '<td class="description-col">' . $description . "</td>" .
-                                '<td><form action="./editBook.php" method="get"><input type="text" name="edit_book" style="display:none" value="' . $book['id'] . '"/><button>Uredi</button></form></td>' .
+                            echo "<tr> <td onclick='edit(". $book['id'].")'>" . $book['name'] . "</td>" .
+                                "<td onclick='edit(". $book['id'].")'>" . $authors[0]['author'] . "</td>" .
+                                "<td onclick='edit(". $book['id'].")'>" . $book['number_of_pages'] . "</td>" .
+                                "<td onclick='edit(". $book['id'].")'>" . $categories[0]['category_name'] . "</td>" .
+                                "<td onclick='edit(". $book['id'].")'>" . $book['publication_date'] . "</td>" .
+                                "<td onclick='edit(". $book['id'].")' id='availability-$id'>" . $availability . "</td>" .
+                                "<td onclick='edit(". $book['id'].")'  class='description-col'>" . $description . "</td>" .
+                                '<td style="display:none"><form action="./editBook.php" id="editBook'.$id.'" method="get"><input type="text" name="edit_book" style="display:none" value="'.$book['id'].'"/><button>Uredi</button></form></td>' .
+                                '<td class="buttonsCol">
+                                <div class="flex-col flex-js-center">
+                                <form action="./userBook.php" method="post" id="borrow-form-'.$book['id'].'">
+                                <input style="display:none" type="text" name="borrow" id="borrow-'.$book['id'].'">
+                                <button type="button" class="'.$available.'" onclick="useBook(\'borrow\', '.$book["id"].')">Pozajmi</button>
+                                </form>
+                                <form action="./userBook.php" method="post" id="return-form-'.$book['id'].'">
+                                <input style="display:none" type="text" name="return" id="return-'.$book['id'].'"">
+                                <button type="button" class="'.$borrowed.'" onclick="useBook(\'return\', '.$book["id"].')">Vrati</button>
+                                </form><div></td>'.
                                 "</tr>";
                             $id++;
                         }

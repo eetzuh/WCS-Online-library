@@ -75,9 +75,7 @@ tr:not(.thead-row):not(.search-message):hover{
     margin-left: 6%;
     border: none;
 }
-/* form{
-    margin: 0;
-} */
+
 #search-field{
     width:400px;
     height:35px;
@@ -96,6 +94,12 @@ tr:not(.thead-row):not(.search-message):hover{
     height: 30px;
     cursor: pointer;
 }
+td{
+    cursor:pointer
+}
+.buttonsCol{
+    cursor: default;
+}
 
 /* add Book css */
 
@@ -107,7 +111,6 @@ tr:not(.thead-row):not(.search-message):hover{
 }
 #number_input{
     width:70px;
-    /* height: 25px; */
 }
 .book-description-field{
     resize: none;
@@ -140,7 +143,7 @@ tr:not(.thead-row):not(.search-message):hover{
 #select-author, #select-category{
     height: 25px;
 }
-.added{
+.added_author, .added_category{
     border:1px solid brown;
     cursor: pointer;
     margin-right: 3px;
@@ -165,4 +168,7 @@ input{
 #delete-book{
     color: red;
     border: red 1px solid;
+}
+#inputWarning{
+    color: red;
 }
