@@ -136,7 +136,7 @@ if (!$loggedUser) {
                                 "<td onclick='edit(". $book['id'].")'>" . $book['publication_date'] . "</td>" .
                                 "<td onclick='edit(". $book['id'].")' id='availability-$id'>" . $availability . "</td>" .
                                 "<td onclick='edit(". $book['id'].")'  class='description-col'>" . $description . "</td>" .
-                                '<td style="display:none"><form action="./editBook.php" id="editBook'.$id.'" method="get"><input type="text" name="edit_book" style="display:none" value="'.$book['id'].'"/><button>Uredi</button></form></td>' .
+                                '<td style="display:none"><form action="./editBook.php" id="editBook'.$book['id'].'" method="get"><input type="text" name="edit_book" style="display:none" value="'.$book['id'].'"/><button>Uredi</button></form></td>' .
                                 '<td class="buttonsCol">
                                 <div class="flex-col flex-js-center">
                                 <form action="./userBook.php" method="post" id="borrow-form-'.$book['id'].'">

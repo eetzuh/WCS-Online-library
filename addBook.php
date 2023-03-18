@@ -59,7 +59,6 @@ $_SESSION['page']="addBook";
                 </div>
                 <div class='flex-col inputs-div'>
                     <label for="selectCategory" multiple>Žanr</label>
-                    <div>
                         <div class='selectedItems mt-5' onchange='checkFields()'>
                             <input list='select-category' form='none' onchange="chosenItem(this, 'add')" id="selectCategory" placeholder='Izaberi žanr'>
                             <datalist id="select-category">
@@ -73,7 +72,6 @@ $_SESSION['page']="addBook";
                                 ?>
     
                             </datalist>
-                        </div>
                         <div id='selected-category' class='selectedItems wrap mt-5'></div>
                     </div>
                     <label onclick="toggleAddItem('category')" id="add-category" class='toggle'><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" id='category-input-button' class="bi bi-plus-square-dotted" viewBox="0 0 16 16">
@@ -82,6 +80,7 @@ $_SESSION['page']="addBook";
                     <div id='add-new-category' class='selectedItems mt-5'>
                         <input type="text" form='none' id="text-input" class='new-category' style='display:none'>
                         <button onclick="addItem('category', 'add')" type="button" id='category-btn' style='display:none'>Dodaj</button>
+                    </div>
                     </div>
                     <div class='flex-js-center inputs-div mt-5'>
                         <label for="number_of_pages">Broj strana</label>

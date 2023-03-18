@@ -65,7 +65,8 @@ tr:not(.thead-row):not(.search-message):hover{
 }
 .sort-buttons{
     height:50px;
-    margin-right: 5%;
+    margin-right: 3%;
+    margin-top: 10px;
 }
 .search-div{
     width: 100%;
@@ -78,7 +79,7 @@ tr:not(.thead-row):not(.search-message):hover{
 
 #search-field{
     width:400px;
-    height:35px;
+    height:34px;
     padding-left: 10px;
     font-size: 18px;
     border: none;
@@ -110,7 +111,7 @@ td{
     background-color: rgb(214, 204, 186);
 }
 #number_input{
-    width:70px;
+    width:50px;
 }
 .book-description-field{
     resize: none;
@@ -159,16 +160,27 @@ td{
     flex-wrap: wrap;
 }
 input{
-    height:25px
-}
-
-input{
+    height:25px;
     border: 1px transparent
 }
+
 #delete-book{
     color: red;
     border: red 1px solid;
+    padding-left: 5px;
 }
+
 #inputWarning{
     color: red;
+}
+
+#author-btn, #category-btn{
+    text-align: center;
+}
+  .header-button{
+    margin-left: 40px;
+}
+  #number_input,#date_input{
+    margin-left: 10px;
+    margin-right: 10px;
 }
